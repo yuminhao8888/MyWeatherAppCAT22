@@ -20,47 +20,26 @@ class WeatherViewModel(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
 
-
-
     private val _cityForecast: MutableLiveData<ResultState> = MutableLiveData(ResultState.LOADING)
     val cityForecast: LiveData<ResultState> get() = _cityForecast
 
-    private var cityName = ""
-    private lateinit var forecast : Forecast
+    var cityName = "Atlanta"
+    var forecast : Forecast? = null
 
-    val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+    private val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
     val currentDate = sdf.format(Date())
-
-    fun getTime():String{
-        return currentDate
-    }
-
-    public fun setCityName(city: String){
-        this.cityName = city
-    }
-
-    public fun setForecast(forecast: Forecast){
-        this.forecast = forecast
-    }
-
-    fun getForecastItem(): Forecast{
-        return this.forecast
-    }
-
-   public fun getCityName():String {
-        return this.cityName
-    }
 
     fun getForecast() {
 
         //Log.d("cityname", this.cityName)
 
-        val cityame = if(this.cityName == "") "Atlanta" else this.cityName
+        // This is not needed you can set the default value to Atlanta
+        //val cityame = if(this.cityName == "") "Atlanta" else this.cityName
 
         viewModelScope.launch(ioDispatcher) {
             // here is the worker thread
             try {
-                val response = weatherRepository.getCityForecast(cityame)
+                val response = weatherRepository.getCityForecast(cityName)
                 if (response.isSuccessful) {
                     response.body()?.let {
                         // here i have my forecast for the city

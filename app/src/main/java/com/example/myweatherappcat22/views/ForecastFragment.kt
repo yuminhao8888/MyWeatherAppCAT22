@@ -31,7 +31,7 @@ class ForecastFragment : BaseFragment() {
 
     private val weatherAdapter by lazy {
         WeatherAdapter(onForecastClicked = {
-            weatherViewModel.setForecast(it)
+            weatherViewModel.forecast = it
             findNavController().navigate(R.id.action_ForecastFragment_to_DetailsFragment)
         })
     }
@@ -62,8 +62,8 @@ class ForecastFragment : BaseFragment() {
             adapter = weatherAdapter
         }
 
-        Log.d("timeCreated", weatherViewModel.getTime())
-        Log.d("cityname", weatherViewModel.getCityName())
+        Log.d("timeCreated", weatherViewModel.currentDate)
+        Log.d("cityname", weatherViewModel.cityName)
 
         weatherViewModel.cityForecast.observe(viewLifecycleOwner, ::handleState)
 
