@@ -56,23 +56,15 @@ class SearchCityFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        Log.d("timeCreated", weatherViewModel.getTime())
+        Log.d("timeCreated", weatherViewModel.currentDate)
 
-        binding.buttonSearch.setOnClickListener{view ->
+        binding.buttonSearch.setOnClickListener{ view ->
+            weatherViewModel.cityName = binding.editTextCity.text.toString()
 
-            cityName = binding.editTextCity.text.toString()
-            weatherViewModel.setCityName(cityName)
-
-
-            Log.d("cityname", weatherViewModel.getCityName())
+            Log.d("cityname", weatherViewModel.cityName)
 
             view.findNavController().navigate(R.id.action_SearchFragment_to_ForecastFragment)
         }
-
-
-
-
-
 
         // Inflate the layout for this fragment
         return binding.root

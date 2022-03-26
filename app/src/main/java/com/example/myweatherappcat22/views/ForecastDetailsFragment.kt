@@ -41,14 +41,17 @@ class ForecastDetailsFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        var forecast = weatherViewModel.getForecastItem()
-        var city = weatherViewModel.getCityName()
+        val forecast = weatherViewModel.forecast
+        val city = weatherViewModel.cityName
 
-        binding.textViewCity.text = "City: " + city
+        binding.textViewCity.text = String.format("City: $city")
 
-        binding.textViewWind.text = "Wind: " + forecast.wind.deg.toString()
-        binding.textViewTemp.text = "Temperature: " + forecast.main.temp.toString()
-        binding.textViewHumid.text = "Humidity: " + forecast.main.humidity.toString()
+        forecast?.let {
+            binding.textViewWind.text = String.format("Wind: " + it.wind.deg.toString())
+            binding.textViewTemp.text = String.format("Temperature: " + it.main.temp.toString())
+            binding.textViewHumid.text = String.format("Humidity: " + it.main.humidity.toString())
+        }
+
         return binding.root
     }
 
